@@ -1,12 +1,9 @@
 import os.path
 import os
 import pygame
-from .Enemy import Enemy
+from .Tower import Tower
 
-
-
-
-class Grey(Enemy):
+class Tower_1(Tower):
     # imgs = []
     # Enemy.imgs.append(pygame.image.load(os.path.join("D:\Projects\TowerDefenseGamePJS\Grafika\Enemies_textures\Grey", "Grey_" + str(x) + ".png"))for x in range(1))
     pass
