@@ -14,7 +14,7 @@ class Enemy:
         self.x = 30 # self.path[0][0]
         self.y = 300 # self.path[0][1]
         # self.path = [(20, 329), (76, 330), (146, 331), (192, 335), (255, 337), (327, 340), (409, 339), (475, 337), (513, 309), (561, 297), (640, 292), (707, 314), (736, 333), (779, 343), (838, 339), (886, 339), (981, 330), (1031, 330), (1169, 341)]
-        self.img = pygame.image.load(os.path.join("..\Grafika\Enemies_textures\Grey\Grey_0.png"))
+        self.img = pygame.image.load(os.path.join("D:\Projects\TowerDefenseGamePJS\Grafika\Enemies_textures\Grey\Grey_0.png"))
         self.img_rec = self.img.get_rect(center = (self.x, self.y))
         self.dis = 0
         self.vel = 6    # default for first movement =5
@@ -23,7 +23,7 @@ class Enemy:
         self.move_dis = 0
         self.path = []
         self.mov_pos = 0
-        f = open("path_0.txt", "r")
+        f = open("D:\Projects\TowerDefenseGamePJS\Game\path_0.txt", "r")
         for coordinates in f:
             self.path.append((tuple(coordinates[1:-2].rsplit(", "))))
         self.x = int(self.path[0][0])

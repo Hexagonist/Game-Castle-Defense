@@ -1,1 +1,36 @@
+12 hours stream:
+
 52:00 implementing animationsS
+
+
+
+
+90 minutes tuttorial:
+
+52:00 projectiles
+1:05:00 colision
+1:23:00 TEXT
+1:30:00 sound
+
+
+
+26.05
+Zaczynane prezentacje za tydzien, obecnosc ob.
+Na prezentacji(pokazie):
+
+- dzialajacy program
+
+- raport koncowy:
+	a) omowienie slowne w tr prezentacji programu + plik (na githubie)
+	b) 1 prezentacja (na githubie) + pokaz programu
+
+- w raporcie:
+	1. Porównanie z pierwotna wizja
+	2. Zggodnosc z harmonogramem(na czym duzo zeszlo czasu (2-3 zdania))
+	3. Krotki opis debugowania
+	*4. Dzialajaca propozycja od prow. ulepszenia programu
+
+- na gita(opcjonalnie):
+	- filmy, zdj, inne
+	- przemyslenia
+	
