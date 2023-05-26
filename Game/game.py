@@ -14,6 +14,7 @@ class Game:
         self.menu = True
 
         self.game_active = False
+        self.game_over = False
         self.width = 1200
         self.height = 700
         self.win = pygame.display.set_mode((self.width, self.height))
@@ -29,10 +30,11 @@ class Game:
         self.towers = []
         self.lives = 10
         self.money = 100
-        self.bg = pygame.image.load(os.path.join("D:\Projects\TowerDefenseGamePJS\Grafika", "Mapa1.png"))
+        self.bg = pygame.image.load(os.path.join("..\Grafika", "Mapa1.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
-        self.end_map = pygame.image.load(os.path.join("D:\Projects\TowerDefenseGamePJS\Grafika", "Koniec.png"))
-        self.menu_map = pygame.image.load(os.path.join("D:\Projects\TowerDefenseGamePJS\Grafika", "Menu.png"))
+        self.end_map = pygame.image.load(os.path.join("..\Grafika", "Koniec.png"))
+        self.menu_map = pygame.image.load(os.path.join("..\Grafika", "Menu.png"))
+        self.game_over_map = pygame.image.load(os.path.join("..\Grafika", "GameOver_0.png"))
 
 
 
@@ -103,13 +105,13 @@ class Game:
                 for en in self.enemys:
                     if en.y >= self.height-50:
                         self.game_active = False
+                        self.game_over = True
                         # self.enemys = []
                 # delete all enemies off the screen
                 for d in to_del:
                     self.enemys.remove(d)
 
                 # creates wave of enemies
-
                 if (self.cur_delay >= self.fps) and (self.spawn_cntr < self.wave_0) and (self.spawn_wave):
                     self.enemys.append(Grey())
                     self.spawn_cntr += 1
@@ -153,12 +155,14 @@ class Game:
             pygame.display.update()
 
         else:
-            # if self.menu:
-            self.win.blit(self.menu_map, (0, 0))
+            if self.game_over:
+                self.win.blit(self.game_over_map, (0, 0))
+            else:
+                self.win.blit(self.menu_map, (0, 0))
+                # else:
+                #     self.win.blit(self.end_map, (0, 0))
+                #     pygame.display.update()
             pygame.display.update()
-            # else:
-            #     self.win.blit(self.end_map, (0, 0))
-            #     pygame.display.update()
 
 
 

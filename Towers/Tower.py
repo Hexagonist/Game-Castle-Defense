@@ -10,10 +10,10 @@ class Tower:
         self.y = 100
         self.animation_count = 0
         self.range = 1
-        self.img = pygame.image.load(os.path.join("D:\Projects\TowerDefenseGamePJS\Grafika\Towers_textures\Tower_1_1.png"))
+        self.img = pygame.image.load(os.path.join("..\Grafika\Towers_textures\Tower_1_1.png"))
         self.img = pygame.transform.scale(self.img, (self.width, self.height))
         self.rec = self.img.get_rect(center = (self.x, self.y))
-        self.range = pygame.image.load(os.path.join("D:\Projects\TowerDefenseGamePJS\Grafika\Towers_textures\Range.png"))
+        self.range = pygame.image.load(os.path.join("..\Grafika\Towers_textures\Range.png"))
         self.range = pygame.transform.scale(self.range, (300, 300))
         self.range_rec = self.range.get_rect(center = (self.x, self.y))
         # self.range = pygame.transform.scale(self.range, (self.width*2, self.height*2))
