@@ -34,7 +34,7 @@ class Game:
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
         self.end_map = pygame.image.load(os.path.join("..\Grafika", "Koniec.png"))
         self.menu_map = pygame.image.load(os.path.join("..\Grafika", "Menu.png"))
-        self.game_over_map = pygame.image.load(os.path.join("..\Grafika", "GameOver_0.png"))
+        self.game_over_map = pygame.image.load(os.path.join("..\Grafika", "GameOver.png"))
 
 
 
