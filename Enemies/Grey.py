@@ -1,7 +1,7 @@
 import os.path
 import os
 import pygame
-from .Enemy import Enemy
+from .enemy import Enemy
 
 
 
