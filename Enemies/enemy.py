@@ -24,6 +24,7 @@ class Enemy:
         self.path = []
         self.mov_pos = 0
         f = open("path_0.txt", "r")
+        # Enemy move path builder
         for coordinates in f:
             self.path.append((tuple(coordinates[1:-2].rsplit(", "))))
         self.x = int(self.path[0][0])
