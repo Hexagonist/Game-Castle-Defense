@@ -3,6 +3,7 @@ import pygame
 import os
 from Enemies.Grey import Grey
 from Towers.Tower_1 import Tower_1
+from Towers.Shot import Shot
 
 # pygame.init() !!!!!!!!!!!!
 class Game:
@@ -21,6 +22,7 @@ class Game:
         self.mouse_pos = (0, 0)
         self.enemys = []
         self.towers = []
+        self.shots = []
         self.tow = Tower_1
         self.wave_0 = 4
         self.spawn_cntr = 0
@@ -73,9 +75,12 @@ class Game:
                         tow.x, tow.y = pygame.mouse.get_pos()
                         self.towers.append(tow)
 
+                        # Testing shot
+                        self.shots.append(Shot())
+
                         # technical help to know current number of towers
                         if self.entieties_num_print:
-                            print("tow.x = "+ str(tow.x))
+                            print("tow.x = " + str(tow.x))
                 else:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         for en in self.enemys:
@@ -152,6 +157,10 @@ class Game:
             # Draw enemies
             for en in self.enemys:
                 en.draw(self.win)
+            # Draw shots fired
+            for shot in self.shots:
+                shot.draw(self.win)
+
             pygame.display.update()
 
         else:
