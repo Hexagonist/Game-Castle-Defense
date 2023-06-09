@@ -1,6 +1,7 @@
 import os.path
 import pygame
 import os
+from menu.button import Button
 from Enemies.Grey import Grey
 from Towers.Tower_1 import Tower_1
 from Towers.Shot import Shot
@@ -16,9 +17,10 @@ class Game:
 
         self.game_active = False
         self.game_over = False
+        self.quit = False
         self.width = 1200
         self.height = 700
-        self.win = pygame.display.set_mode((self.width, self.height))
+        self.win = pygame.display.set_mode((self.width, self.height))#, pygame.FULLSCREEN)
         self.mouse_pos = (0, 0)
         self.enemys = []
         self.towers = []
@@ -32,11 +34,22 @@ class Game:
         self.towers = []
         self.lives = 10
         self.money = 100
+
+        # Loading images:
         self.bg = pygame.image.load(os.path.join("..\Grafika", "Mapa1.png"))
         self.bg = pygame.transform.scale(self.bg, (self.width, self.height))
+        self.start_button_img = pygame.image.load(os.path.join("..\Grafika", "start_btn.png"))
+        self.exit_button_img = pygame.image.load(os.path.join("..\Grafika", "exit_btn.png"))
+        self.try_again_button_img = pygame.image.load(os.path.join("..\Grafika", "try_again_btn.png"))
         self.end_map = pygame.image.load(os.path.join("..\Grafika", "Koniec.png"))
         self.menu_map = pygame.image.load(os.path.join("..\Grafika", "Menu.png"))
         self.game_over_map = pygame.image.load(os.path.join("..\Grafika", "GameOver.png"))
+        self.pauza_map = pygame.image.load(os.path.join("..\Grafika", "Pauza.png"))
+
+        # Buttons initialisation:
+        self.start_button = Button(self.width//2, self.height//2, 200, 100, self.start_button_img)
+        self.exit_button = Button(self.width//2, self.height//2 + 120, 200, 100, self.exit_button_img)
+        self.try_again_button = Button(self.width//2, self.height//2, 200, 100, self.try_again_button_img)
 
 
 
@@ -44,13 +57,18 @@ class Game:
         run = True
         clock = pygame.time.Clock()
         # self.create_wave()
+
         while run:
             clock.tick(self.fps)
             # self.tow.x, self.tow.y = pygame.mouse.get_pos()
             # px, py = pygame.mouse.get_pos()
+            if self.quit:
+                run = False
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
+                    # self.quit = True
 
                 if event.type == pygame.MOUSEMOTION:
                 #     # self.tow = Tower_1
@@ -81,14 +99,9 @@ class Game:
                         # technical help to know current number of towers
                         if self.entieties_num_print:
                             print("tow.x = " + str(tow.x))
-                else:
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        for en in self.enemys:
-                            self.enemys.remove(en)
-                        for tow in self.towers:
-                            self.towers.remove(tow)
-                        self.spawn_cntr = 0
-                        self.game_active = True
+                #else:
+                    # if event.type == pygame.MOUSEBUTTONDOWN:
+
 
                         # pygame.quit()
                         # exit()
@@ -143,7 +156,7 @@ class Game:
         pygame.quit()
 
     def draw(self):
-        if self.game_active == True:
+        if self.game_active:
 
             self.win.blit(self.bg, (0,0))
             if self.entieties_num_print:
@@ -161,13 +174,37 @@ class Game:
             for shot in self.shots:
                 shot.draw(self.win)
 
+            # Working resume button
+            # if self.try_again_button.draw(self.win):
+            #     self.game_active = True
+
             pygame.display.update()
+
+
 
         else:
             if self.game_over:
                 self.win.blit(self.game_over_map, (0, 0))
+                if self.exit_button.draw(self.win):
+                    self.quit = True
+                if self.try_again_button.draw(self.win):
+                    self.game_over = False
+
             else:
                 self.win.blit(self.menu_map, (0, 0))
+
+                if self.start_button.draw(self.win):
+                    for en in self.enemys:  # !!! Probably unwanted enemies removal there
+                        self.enemys.remove(en)
+                    for tow in self.towers:
+                        self.towers.remove(tow)
+                    self.spawn_cntr = 0
+                    self.game_active = True
+
+                if self.exit_button.draw(self.win):
+                    self.quit = True
+
+
                 # else:
                 #     self.win.blit(self.end_map, (0, 0))
                 #     pygame.display.update()
