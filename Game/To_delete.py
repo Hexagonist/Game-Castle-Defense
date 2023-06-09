@@ -1,1 +1,3 @@
 #Testtt
+
+# Dodac ekran pauzy
