@@ -3,7 +3,7 @@ import math
 import os
 
 
-
+# Enemy.py issue resolving test
 class Enemy:
     imgs = []
     def __init__(self):
