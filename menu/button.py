@@ -9,7 +9,6 @@ class Button:
         self.image = pygame.transform.scale(image, (int(width), int(height)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x-width//2, y-height//2)
-        # self.rect.topleft = (x, y)
         self.clicked = False
 
     def draw(self, win):

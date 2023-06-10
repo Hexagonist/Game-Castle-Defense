@@ -1,10 +1,12 @@
 import os.path
 import pygame
 import os
-from menu.button import Button
+
 from Enemies.Grey import Grey
 from Towers.Tower_1 import Tower_1
 from Towers.Shot import Shot
+from menu.button import Button
+# from menu.UI import UI
 
 # pygame.init() !!!!!!!!!!!!
 class Game:
@@ -45,11 +47,21 @@ class Game:
         self.menu_map = pygame.image.load(os.path.join("..\Grafika", "Menu.png"))
         self.game_over_map = pygame.image.load(os.path.join("..\Grafika", "GameOver.png"))
         self.pauza_map = pygame.image.load(os.path.join("..\Grafika", "Pauza.png"))
+        self.ui_img = pygame.image.load(os.path.join("..\Grafika", "UI_0.png"))
 
         # Buttons initialisation:
+        # Main Menu:
         self.start_button = Button(self.width//2, self.height//2, 200, 100, self.start_button_img)
         self.exit_button = Button(self.width//2, self.height//2 + 120, 200, 100, self.exit_button_img)
         self.try_again_button = Button(self.width//2, self.height//2, 200, 100, self.try_again_button_img)
+
+        # UI :
+        self.tow1_btn_img = pygame.image.load(os.path.join("..\Grafika", "tow1_btn.png"))
+
+
+
+        # UI initialisation:
+        # self.ui = UI(self.width-100, 0, 100, self.height, self.ui_img)
 
 
 
@@ -159,6 +171,8 @@ class Game:
         if self.game_active:
 
             self.win.blit(self.bg, (0,0))
+            self.UI_draw(self.width-100, 0, 100, self.height, self.ui_img)
+
             if self.entieties_num_print:
                 # technical help to know current number of towers and enemies
                 print("T = " + str(len(self.towers)))
@@ -209,6 +223,19 @@ class Game:
                 #     self.win.blit(self.end_map, (0, 0))
                 #     pygame.display.update()
             pygame.display.update()
+
+
+    # Function to draw UI
+    def UI_draw(self, x, y, width, height, image):
+        image = pygame.transform.scale(image, (int(width), int(height)))
+        rect = image.get_rect()
+        rect.topleft = (x, y)
+        tow1_btn = Button(rect.x + width//2, rect.y + 50, 50, 50, self.tow1_btn_img)
+
+        self.win.blit(image, (rect.x, rect.y))
+        tow1_btn.draw(self.win)
+
+
 
 
 
