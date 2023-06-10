@@ -6,7 +6,7 @@ from Enemies.Grey import Grey
 from Towers.Tower_1 import Tower_1
 from Towers.Shot import Shot
 from menu.button import Button
-# from menu.UI import UI
+from menu.UI import UI
 
 # pygame.init() !!!!!!!!!!!!
 class Game:
@@ -56,12 +56,11 @@ class Game:
         self.try_again_button = Button(self.width//2, self.height//2, 200, 100, self.try_again_button_img)
 
         # UI :
-        self.tow1_btn_img = pygame.image.load(os.path.join("..\Grafika", "tow1_btn.png"))
-
-
-
-        # UI initialisation:
-        # self.ui = UI(self.width-100, 0, 100, self.height, self.ui_img)
+        self.button_collision = False
+        self.clicked = False
+        self.ui = UI(self.width-100, 0, 100, self.height, self.ui_img)
+        self.tow_place_mode = False
+        self.place_mode = 0
 
 
 
@@ -99,18 +98,34 @@ class Game:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         # self.tow.reload()
                         # pygame.draw.rect(self.win, (255, 255, 255), (100, 100, 10, 10))
-                        if self.entieties_num_print:
-                            print("DOWN")
-                        tow = Tower_1()
-                        tow.x, tow.y = pygame.mouse.get_pos()
-                        self.towers.append(tow)
 
-                        # Testing shot
-                        self.shots.append(Shot())
+                        # /// cutted
+                        # if self.entieties_num_print:
+                        #     print("DOWN")
+                        #
+                        # mx, my = pygame.mouse.get_pos()
+                        #
+                        # if self.tow1_place_mode :#and mx < self.width-100:
+                        #     tow = Tower_1()
+                        #     tow.x, tow.y = mx, my
+                        #     self.towers.append(tow)
+                        #     # Testing shot
+                        #     self.shots.append(Shot())
+                        # /// cutted V
 
                         # technical help to know current number of towers
                         if self.entieties_num_print:
                             print("tow.x = " + str(tow.x))
+
+                        # /// HERE ^
+                        mx, my = pygame.mouse.get_pos()
+
+                        if self.tow_place_mode and mx < self.width-100 and self.place_mode == 1:
+                            tow = Tower_1()
+                            tow.x, tow.y = mx, my
+                            self.towers.append(tow)
+                            # Testing shot
+                            self.shots.append(Shot())
                 #else:
                     # if event.type == pygame.MOUSEBUTTONDOWN:
 
@@ -171,7 +186,12 @@ class Game:
         if self.game_active:
 
             self.win.blit(self.bg, (0,0))
-            self.UI_draw(self.width-100, 0, 100, self.height, self.ui_img)
+            # self.UI_draw(self.width-100, 0, 100, self.height, self.ui_img)
+            self.ui.draw()
+
+            # if self.placement_mode == 1:
+
+
 
             if self.entieties_num_print:
                 # technical help to know current number of towers and enemies
@@ -203,6 +223,7 @@ class Game:
                     self.quit = True
                 if self.try_again_button.draw(self.win):
                     self.game_over = False
+                    self.tow1_place_mode = False
 
             else:
                 self.win.blit(self.menu_map, (0, 0))
@@ -224,16 +245,28 @@ class Game:
                 #     pygame.display.update()
             pygame.display.update()
 
-
     # Function to draw UI
-    def UI_draw(self, x, y, width, height, image):
-        image = pygame.transform.scale(image, (int(width), int(height)))
-        rect = image.get_rect()
-        rect.topleft = (x, y)
-        tow1_btn = Button(rect.x + width//2, rect.y + 50, 50, 50, self.tow1_btn_img)
+    # def UI_draw(self, x, y, width, height, image):
+    #
+    #
+    #     image = pygame.transform.scale(image, (int(width), int(height)))
+    #     rect = image.get_rect()
+    #     rect.topleft = (x, y)
+    #     tow1_btn = Button(rect.x + width//2, rect.y + 50, 50, 50, self.tow1_btn_img)
+    #
+    #     self.win.blit(image, (rect.x, rect.y))
+    #
+    #     if tow1_btn.draw(self.win) and not self.clicked:
+    #         self.clicked = True
+    #         self.tow1_place_mode = not self.tow1_place_mode
+    #
+    #
+    #
+    #     if not tow1_btn.draw(self.win):
+    #         self.clicked = False
+    #
+    #     print(self.tow1_place_mode)
 
-        self.win.blit(image, (rect.x, rect.y))
-        tow1_btn.draw(self.win)
 
 
 

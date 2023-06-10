@@ -17,7 +17,7 @@ class Enemy:
         self.img = pygame.image.load(os.path.join("..\Grafika\Enemies_textures\Grey\Grey_0.png"))
         self.img_rec = self.img.get_rect(center = (self.x, self.y))
         self.dis = 0
-        self.vel = 12    # default for first movement =5
+        self.vel = 5    # default for first movement =5
         self.path_pos = 0
         self.move_count = 0
         self.move_dis = 0
