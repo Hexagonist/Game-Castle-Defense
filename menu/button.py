@@ -3,30 +3,32 @@ import pygame
 # Button class
 class Button:
 
-    def __init__(self, x, y, width, height, image):
-        # widt = image.get_width()
-        # height = image.get_height()
+    def __init__(self, x, y, width, height, image, memory=False, mkey_num=0):
+        self.x = x
+        self.y = y
+        self.x = x
         self.image = pygame.transform.scale(image, (int(width), int(height)))
         self.rect = self.image.get_rect()
-        self.rect.topleft = (x-width//2, y-height//2)
-        # self.rect.topleft = (x, y)
+        self.rect.topleft = (self.x, self.y)
+        self.memory = memory
         self.clicked = False
+        self.pushed = False
 
+    #draw button on screen
     def draw(self, win):
-        action = False
-        #get mouse position
-        pos = pygame.mouse.get_pos()
-
-        #check mouseover and clicked conditions
-        if self.rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-                self.clicked = True
-                action = True
-
-        if pygame.mouse.get_pressed()[0] == 0:
-            self.clicked = False
-
-        #draw button on screen
         win.blit(self.image, (self.rect.x, self.rect.y))
 
-        return action
+    def click_check(self, mkey_num=0):
+        # get mouse position
+        pos = pygame.mouse.get_pos()
+
+        if self.rect.collidepoint(pos) and pygame.mouse.get_pressed()[mkey_num] and not self.clicked:
+            self.clicked = True
+            print("pressed")
+            return True
+
+        if (self.rect.collidepoint(pos) and not pygame.mouse.get_pressed()[mkey_num]) and self.clicked:  #or (not self.rect.collidepoint(pos)):
+            self.clicked = False
+            print("released")
+
+
