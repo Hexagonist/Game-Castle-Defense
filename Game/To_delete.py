@@ -2,7 +2,7 @@
 
 
 # Paski Zycia -
-# Pieniadze
+# Pieniadze -
 # Animacja strzalu
-# Rozwiniecie UI
+# Rozwiniecie UI ( wiecej przyciskow )
 # Dodac ekran pauzy
