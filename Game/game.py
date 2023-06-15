@@ -8,6 +8,7 @@ from Towers.Shot import Shot
 from menu.button import Button
 from menu.UI import UI
 
+
 # pygame.init() !!!!!!!!!!!!
 class Game:
     def __init__(self):
@@ -51,9 +52,9 @@ class Game:
 
         # Buttons initialisation:
         # Main Menu:
-        self.start_button = Button(self.width//2, self.height//2, 200, 100, self.start_button_img)
-        self.exit_button = Button(self.width//2, self.height//2 + 120, 200, 100, self.exit_button_img)
-        self.try_again_button = Button(self.width//2, self.height//2, 200, 100, self.try_again_button_img)
+        self.start_button = Button(self.width//2 -100, self.height//2 -50, 200, 100, self.start_button_img)
+        self.exit_button = Button(self.width//2 -100, self.height//2 -50 + 120, 200, 100, self.exit_button_img)
+        self.try_again_button = Button(self.width//2 -100, self.height//2 -50, 200, 100, self.try_again_button_img)
 
         # UI :
         self.button_collision = False
@@ -85,7 +86,7 @@ class Game:
                 #     # self.tow = Tower_1
                 #     # self.tow.x, self.tow.y = event.pos
 
-                # technical help to know mouse coursor position
+                # technical help to know mouse coursor position     D E V
                     if (self.mouse_pos_print) and (len(self.towers) > 0):
                         self.mouse_pos = event.pos
                         f = open("path_0.txt", "a")
@@ -113,12 +114,22 @@ class Game:
                         #     self.shots.append(Shot())
                         # /// cutted V
 
-                        # technical help to know current number of towers
+                        # technical help to know current number of towers       D E V
                         if self.entieties_num_print:
                             print("tow.x = " + str(tow.x))
 
                         # /// HERE ^
                         mx, my = pygame.mouse.get_pos()
+
+                        if self.ui.tow1_btn.click_check():
+                            self.tow_place_mode = True
+                            self.place_mode = 1
+                            self.ui.tow1_btn.click_check()
+
+                        self.ui.tow1_btn.clicked = False
+                        if self.ui.tow1_btn.click_check(2):
+                            self.tow_place_mode = False
+                            self.ui.tow1_btn.click_check(2)
 
                         if self.tow_place_mode and mx < self.width-100 and self.place_mode == 1:
                             tow = Tower_1()
@@ -126,6 +137,13 @@ class Game:
                             self.towers.append(tow)
                             # Testing shot
                             self.shots.append(Shot())
+
+
+
+
+
+
+
                 #else:
                     # if event.type == pygame.MOUSEBUTTONDOWN:
 
@@ -185,16 +203,16 @@ class Game:
     def draw(self):
         if self.game_active:
 
-            self.win.blit(self.bg, (0,0))
+            self.win.blit(self.bg, (0, 0))
             # self.UI_draw(self.width-100, 0, 100, self.height, self.ui_img)
-            self.ui.draw()
+            self.ui.draw(self.win)
 
             # if self.placement_mode == 1:
 
 
 
+            # technical help to know current number of towers and enemies       D E V
             if self.entieties_num_print:
-                # technical help to know current number of towers and enemies
                 print("T = " + str(len(self.towers)))
                 print("E = " + str(len(self.enemys)))
 
@@ -219,16 +237,24 @@ class Game:
         else:
             if self.game_over:
                 self.win.blit(self.game_over_map, (0, 0))
-                if self.exit_button.draw(self.win):
+
+                self.exit_button.draw(self.win)
+                if self.exit_button.click_check():
                     self.quit = True
-                if self.try_again_button.draw(self.win):
+                    self.exit_button.click_check()
+
+                self.try_again_button.draw(self.win)
+                if self.try_again_button.click_check():
                     self.game_over = False
                     self.tow1_place_mode = False
+                    self.try_again_button.click_check()
 
             else:
                 self.win.blit(self.menu_map, (0, 0))
 
-                if self.start_button.draw(self.win):
+                self.start_button.draw(self.win)
+                if self.start_button.click_check():
+                    self.start_button.click_check()
                     for en in self.enemys:  # !!! Probably unwanted enemies removal there
                         self.enemys.remove(en)
                     for tow in self.towers:
@@ -236,8 +262,10 @@ class Game:
                     self.spawn_cntr = 0
                     self.game_active = True
 
-                if self.exit_button.draw(self.win):
+                self.exit_button.draw(self.win)
+                if self.exit_button.click_check():
                     self.quit = True
+                    self.exit_button.click_check()
 
 
                 # else:

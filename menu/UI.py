@@ -1,6 +1,6 @@
 import pygame
 import os
-from button import Button
+from menu.button import Button
 
 class UI:
 
@@ -10,7 +10,7 @@ class UI:
         self.rect.topleft = (x, y)
         self.clicked = False
         self.tow1_btn_img = pygame.image.load(os.path.join("..\Grafika", "tow1_btn.png"))
-        self.tow1_btn = Button(self.rect.x + width // 2, self.rect.y + 50, 50, 50, self.tow1_btn_img)
+        self.tow1_btn = Button(self.rect.x+width//2-25, self.rect.y+25, 50, 50, self.tow1_btn_img, True)
 
 
 # (self, x, y, width, height, image):
