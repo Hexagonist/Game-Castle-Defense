@@ -3,6 +3,27 @@ import math
 import os
 
 
+class Enemy_health:
+
+    def __init__(self, x, y, width, height, max_hp):
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+        self.hp = max_hp
+        self.max_hp = max_hp
+
+
+    def draw(self, win):
+        ratio = self.hp/self.max_hp
+        pygame.draw.rect(win, "red", (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(win, "green", (self.x, self.y, self.width * ratio, self.height))
+
+    def update(self, x, y, hp):
+        self.x = x
+        self.y = y
+        self.hp = hp
+
 
 class Enemy:
     imgs = []
@@ -17,7 +38,7 @@ class Enemy:
         self.img = pygame.image.load(os.path.join("..\Grafika\Enemies_textures\Grey\Grey_0.png"))
         self.img_rec = self.img.get_rect(center = (self.x, self.y))
         self.dis = 0
-        self.vel = 10    # default for first movement =5
+        self.vel = 1    # default for first movement =5
         self.path_pos = 0
         self.move_count = 0
         self.move_dis = 0
@@ -29,6 +50,8 @@ class Enemy:
             self.path.append((tuple(coordinates[1:-2].rsplit(", "))))
         self.x = int(self.path[0][0])
         self.y = int(self.path[0][1])
+        # health bar
+        self.health = Enemy_health(self.x, self.y, 50, 5, 10)
 
 
     def draw(self, win):
@@ -46,6 +69,8 @@ class Enemy:
 
 
         win.blit(self.img, ((self.x-self.width//2), (self.y-self.height//2)))
+        self.health.update(self.x-self.width//2 - 10, self.y - self.height - 2, 10)
+        self.health.draw(win)
         self.move()
 
     def collide(self, X, Y):
