@@ -1,7 +1,7 @@
 #Testtt
 
 
-# Paski Zycia
+# Paski Zycia -
 # Pieniadze
 # Animacja strzalu
 # Rozwiniecie UI

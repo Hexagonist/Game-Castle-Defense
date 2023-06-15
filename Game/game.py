@@ -9,7 +9,7 @@ from menu.button import Button
 from menu.UI import UI
 
 
-# pygame.init() !!!!!!!!!!!!
+pygame.init() #!!!!!!!!!!!!
 class Game:
     def __init__(self):
         # Dev Test tools
@@ -36,7 +36,7 @@ class Game:
         self.x = 0
         self.towers = []
         self.lives = 10
-        self.money = 100
+        self.coins = 100
 
         # Loading images:
         self.bg = pygame.image.load(os.path.join("..\Grafika", "Mapa1.png"))
@@ -48,7 +48,6 @@ class Game:
         self.menu_map = pygame.image.load(os.path.join("..\Grafika", "Menu.png"))
         self.game_over_map = pygame.image.load(os.path.join("..\Grafika", "GameOver.png"))
         self.pauza_map = pygame.image.load(os.path.join("..\Grafika", "Pauza.png"))
-        self.ui_img = pygame.image.load(os.path.join("..\Grafika", "UI_0.png"))
 
         # Buttons initialisation:
         # Main Menu:
@@ -57,9 +56,12 @@ class Game:
         self.try_again_button = Button(self.width//2 -100, self.height//2 -50, 200, 100, self.try_again_button_img)
 
         # UI :
+        self.ui_r_p_img = pygame.image.load(os.path.join("..\Grafika", "UI_0.png"))
+        self.ui_up_p_img = pygame.image.load(os.path.join("..\Grafika", "UI_up.png"))
         self.button_collision = False
         self.clicked = False
-        self.ui = UI(self.width-100, 0, 100, self.height, self.ui_img)
+        self.ui_font = pygame.font.SysFont("Arial", 20)
+        self.ui = UI(self.width-100, 0, 100, self.height, self.ui_r_p_img, self.ui_up_p_img, self.ui_font, self.coins)
         self.tow_place_mode = False
         self.place_mode = 0
 
