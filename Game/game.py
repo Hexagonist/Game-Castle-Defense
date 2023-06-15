@@ -10,6 +10,22 @@ from menu.UI import UI
 
 
 pygame.init() #!!!!!!!!!!!!
+
+class Base(pygame.sprite.Sprite):
+    def __init__(self, x, y, width, height, img):
+        super().__init__()
+        self.x = x
+        self.y = y
+        self.img = pygame.transform.scale(img, (width, height))
+        self.rect = self.img.get_rect()
+        self.hp = 100
+
+
+    # def draw(self, win):
+    #     win.blit(self.img, (self.rect.x, self.rect.y))
+
+
+
 class Game:
     def __init__(self):
         # Dev Test tools
@@ -64,7 +80,11 @@ class Game:
         self.ui = UI(self.width-100, 0, 100, self.height, self.ui_r_p_img, self.ui_up_p_img, self.ui_font, self.coins)
         self.tow_place_mode = False
         self.place_mode = 0
+        # self.base_pos1 = ()
 
+        self.base_img = pygame.image.load(os.path.join("..\Grafika", "Base.png"))
+        self.base = Base(self.width-200, self.height - 100, 100, 100, self.base_img)
+        # self.base_gr = pygame.sprite.g
 
 
     def run(self):
@@ -232,6 +252,8 @@ class Game:
             # if self.try_again_button.draw(self.win):
             #     self.game_active = True
 
+
+            # Base.
             pygame.display.update()
 
 
