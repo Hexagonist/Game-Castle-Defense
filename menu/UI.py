@@ -2,15 +2,57 @@ import pygame
 import os
 from menu.button import Button
 
+
+class Panel:
+
+    def __init__(self, x, y, width, height, img):
+        self.x = x
+        self.y = y
+
+        self.img = pygame.transform.scale(img, (width, height))
+        self.rect = self.img.get_rect()
+        self.rect.topleft = (x, y)
+
+
+    def draw(self, win):
+        win.blit(self.img, (self.rect.x, self.rect.y))
+
+
+
+class Res_indicator:
+
+    def __init__(self, x, y, text, font, color):
+        self.x = x
+        self.y = y
+        self.font = font
+        self.color = color
+        self.text = text
+
+    def draw(self, win):
+        img = self.font.render(self.text, True, self.color)
+        win.blit(img, (self.x, self.y))
+
+
+
 class UI:
 
-    def __init__(self, x, y, width, height, image):
-        self.image = pygame.transform.scale(image, (int(width), int(height)))
+    def __init__(self, x, y, width, height, r_panel, up_panel, font, coins):
+        self.ui_font = font
+
+        self.image = pygame.transform.scale(r_panel, (int(width), int(height)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
+
+        self.up_panel = Panel(0, 0, 1600, 30, up_panel)
+
         self.clicked = False
+
+        self.coins_num = coins
+        self.coins = Res_indicator(10, 5, "Coins: " + str(self.coins_num), self.ui_font, (0, 0, 0))
         self.tow1_btn_img = pygame.image.load(os.path.join("..\Grafika", "tow1_btn.png"))
         self.tow1_btn = Button(self.rect.x+width//2-25, self.rect.y+25, 50, 50, self.tow1_btn_img, True)
+
+
 
 
 # (self, x, y, width, height, image):
@@ -38,6 +80,9 @@ class UI:
         # rect.topleft = (x, y)
 
         win.blit(self.image, (self.rect.x, self.rect.y))
+        self.up_panel.draw(win)
+        # win.blit(self.up_panel_img, (self.up_p_rect.x, self.up_p_rect.y))
+        self.coins.draw(win)
         self.tow1_btn.draw(win)
 
 

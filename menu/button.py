@@ -6,7 +6,6 @@ class Button:
     def __init__(self, x, y, width, height, image, memory=False, mkey_num=0):
         self.x = x
         self.y = y
-        self.x = x
         self.image = pygame.transform.scale(image, (int(width), int(height)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (self.x, self.y)
