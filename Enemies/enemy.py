@@ -3,7 +3,7 @@ import math
 import os
 
 
-class Enemy_health:
+class Health_bar:
 
     def __init__(self, x, y, width, height, max_hp):
         self.width = width
@@ -51,7 +51,9 @@ class Enemy:
         self.x = int(self.path[0][0])
         self.y = int(self.path[0][1])
         # health bar
-        self.health = Enemy_health(self.x, self.y, 50, 5, 10)
+        self.health = Health_bar(self.x, self.y, 50, 5, 10)
+        self.dmg = 50
+        self.loot = 50
 
 
     def draw(self, win):

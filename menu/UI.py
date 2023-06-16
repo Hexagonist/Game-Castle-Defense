@@ -48,7 +48,7 @@ class UI:
         self.clicked = False
 
         self.coins_num = coins
-        self.coins = Res_indicator(10, 5, "Coins: " + str(self.coins_num), self.ui_font, (0, 0, 0))
+        # self.coins = Res_indicator(10, 5, "Coins: " + str(self.coins_num), self.ui_font, (0, 0, 0))
         self.tow1_btn_img = pygame.image.load(os.path.join("..\Grafika", "tow1_btn.png"))
         self.tow1_btn = Button(self.rect.x+width//2-25, self.rect.y+25, 50, 50, self.tow1_btn_img, True)
 
@@ -78,21 +78,12 @@ class UI:
         # image = pygame.transform.scale(image, (int(width), int(height)))
         # rect = image.get_rect()
         # rect.topleft = (x, y)
-
         win.blit(self.image, (self.rect.x, self.rect.y))
         self.up_panel.draw(win)
         # win.blit(self.up_panel_img, (self.up_p_rect.x, self.up_p_rect.y))
-        self.coins.draw(win)
+        coins = Res_indicator(10, 5, "Coins: " + str(self.coins_num), self.ui_font, (0, 0, 0))
+        coins.draw(win)
         self.tow1_btn.draw(win)
-
-
-    def place_mode(self):
-        mode = 0
-
-        if self.tow1_btn.clicked_n_released():
-            mode = 1
-
-        return mode
 
 
 
@@ -104,3 +95,6 @@ class UI:
         #     self.clicked = False
         #
         # print(self.tow1_place_mode)
+
+    def update(self, coins):
+        self.coins_num = coins

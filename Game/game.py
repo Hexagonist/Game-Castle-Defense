@@ -7,22 +7,36 @@ from Towers.Tower_1 import Tower_1
 from Towers.Shot import Shot
 from menu.button import Button
 from menu.UI import UI
+from Enemies.enemy import Health_bar
 
 
 pygame.init() #!!!!!!!!!!!!
 
-class Base(pygame.sprite.Sprite):
+class Base():
     def __init__(self, x, y, width, height, img):
-        super().__init__()
         self.x = x
         self.y = y
         self.img = pygame.transform.scale(img, (width, height))
         self.rect = self.img.get_rect()
+        self.rect.topleft = (x, y)
         self.hp = 100
+        self.health_bar = Health_bar(self.rect.x, self.rect.y, width-20, 5, 100)
 
 
-    # def draw(self, win):
-    #     win.blit(self.img, (self.rect.x, self.rect.y))
+    def draw(self, win):
+        win.blit(self.img, (self.rect.x, self.rect.y))
+        self.health_bar.update(self.x+10, self.y+5, self.hp)
+        self.health_bar.draw(win)
+
+
+    def collide(self, en):
+
+        x = en.x
+        y = en.y
+        if self.rect.collidepoint(x, y):
+            return True
+        else:
+            return False
 
 
 
@@ -83,7 +97,7 @@ class Game:
         # self.base_pos1 = ()
 
         self.base_img = pygame.image.load(os.path.join("..\Grafika", "Base.png"))
-        self.base = Base(self.width-200, self.height - 100, 100, 100, self.base_img)
+        self.base = Base(self.width-210, self.height - 100, 100, 100, self.base_img)
         # self.base_gr = pygame.sprite.g
 
 
@@ -153,12 +167,13 @@ class Game:
                             self.tow_place_mode = False
                             self.ui.tow1_btn.click_check(2)
 
-                        if self.tow_place_mode and mx < self.width-100 and self.place_mode == 1:
+                        if self.tow_place_mode and mx < self.width-100 and self.place_mode == 1 and self.coins >= 100:
                             tow = Tower_1()
                             tow.x, tow.y = mx, my
                             self.towers.append(tow)
                             # Testing shot
                             self.shots.append(Shot())
+                            self.coins -= 100
 
 
 
@@ -180,11 +195,17 @@ class Game:
             if self.game_active == True:
                 # loop through enemies
                 to_del = []
+                self.ui.update(self.coins)
+
                 for en in self.enemys:
                     for tow in self.towers:
                         if tow.collide(en):
+                            self.coins += en.loot
                             to_del.append(en)
                     if en.y > 650:
+                        to_del.append(en)
+                    if self.base.collide(en):
+                        self.base.hp -= en.dmg
                         to_del.append(en)
 
                 for en in self.enemys:
@@ -192,6 +213,11 @@ class Game:
                         self.game_active = False
                         self.game_over = True
                         # self.enemys = []
+
+                if self.base.hp <= 0:
+                    self.game_active = False
+                    self.game_over = True
+
                 # delete all enemies off the screen
                 for d in to_del:
                     self.enemys.remove(d)
@@ -253,7 +279,7 @@ class Game:
             #     self.game_active = True
 
 
-            # Base.
+            self.base.draw(self.win)
             pygame.display.update()
 
 
@@ -269,6 +295,7 @@ class Game:
 
                 self.try_again_button.draw(self.win)
                 if self.try_again_button.click_check():
+                    self.game_reset()
                     self.game_over = False
                     self.tow1_place_mode = False
                     self.try_again_button.click_check()
@@ -296,6 +323,18 @@ class Game:
                 #     self.win.blit(self.end_map, (0, 0))
                 #     pygame.display.update()
             pygame.display.update()
+
+
+
+    def game_reset(self):
+        for en in self.enemys:  # !!! Probably unwanted enemies removal there
+            self.enemys.remove(en)
+        for tow in self.towers:
+            self.towers.remove(tow)
+        self.spawn_cntr = 0
+        self.base.hp = 100
+        self.coins = 100
+
 
     # Function to draw UI
     # def UI_draw(self, x, y, width, height, image):

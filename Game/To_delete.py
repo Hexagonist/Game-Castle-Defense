@@ -3,7 +3,9 @@
 
 # Paski Zycia -
 # Pieniadze -]
-# Baza
+# surowce
+# Baza -
+# Wieze
 # Animacja strzalu
 # Prezentacja
 # Rozwiniecie UI ( wiecej przyciskow )
