@@ -64,6 +64,7 @@ class Game:
         self.towers = []
         self.lives = 10
         self.coins = 200
+        self.game_win = False
 
         # wave
         self.wave_0 = 4
@@ -83,6 +84,8 @@ class Game:
         self.menu_map = pygame.image.load(os.path.join("..\Grafika", "Menu.png"))
         self.game_over_map = pygame.image.load(os.path.join("..\Grafika", "GameOver.png"))
         self.pauza_map = pygame.image.load(os.path.join("..\Grafika", "Pauza.png"))
+        self.win_screen = pygame.image.load(os.path.join("..\Grafika", "Win.png"))
+
 
         # Buttons initialisation:
         # Main Menu:
@@ -96,7 +99,8 @@ class Game:
         self.button_collision = False
         self.clicked = False
         self.ui_font = pygame.font.SysFont("Arial", 20)
-        self.ui = UI(self.width-100, 0, 100, self.height, self.ui_r_p_img, self.ui_up_p_img, self.ui_font, self.coins)
+        self.ui = UI(self.width-100, 0, 100, self.height, self.ui_r_p_img, self.ui_up_p_img,
+                     self.ui_font, self.coins, self.level)
         self.tow_place_mode = False
         self.place_mode = 0
         # self.base_pos1 = ()
@@ -177,7 +181,7 @@ class Game:
                             tow.x, tow.y = mx, my
                             self.towers.append(tow)
                             # Testing shot
-                            self.shots.append(Shot())
+                            # self.shots.append(Shot())
                             self.coins -= 100
 
 
@@ -200,7 +204,7 @@ class Game:
             if self.game_active == True:
                 # loop through enemies
                 to_del = []
-                self.ui.update(self.coins)
+                self.ui.update(self.coins, self.level)
 
                 for en in self.enemys:
                     for tow in self.towers:
@@ -230,11 +234,15 @@ class Game:
 
                 # creates wave of enemies
                 if self.level == 1:
-                    self.wave_spwn(120, 2)
+                    self.wave_spwn(self.fps, 120, 3)
                 elif self.level == 2:
-                    self.wave_spwn(120, 5)
+                    self.wave_spwn(self.fps*0.7, 120, 5)
                 elif self.level == 3:
-                    self.wave_spwn(240, 8)
+                    self.wave_spwn(self.fps/3, 120, 12)
+                elif self.level == 4:
+                    self.game_win = True
+                    self.game_active = False
+
 
                 # if len(self.enemys) == 0 and :
                 #     self.level += 1
@@ -295,8 +303,24 @@ class Game:
 
 
         else:
+            self.exit_button.clicked = False
+            self.try_again_button.clicked = False
             if self.game_over:
                 self.win.blit(self.game_over_map, (0, 0))
+                self.exit_button.draw(self.win)
+                if self.exit_button.click_check():
+                    self.quit = True
+                    self.exit_button.click_check()
+
+                self.try_again_button.draw(self.win)
+                if self.try_again_button.click_check():
+                    self.game_reset()
+                    self.game_over = False
+                    self.tow1_place_mode = False
+                    self.try_again_button.click_check()
+
+            elif self.game_win:
+                self.win.blit(self.win_screen, (0, 0))
 
                 self.exit_button.draw(self.win)
                 if self.exit_button.click_check():
@@ -335,17 +359,22 @@ class Game:
             pygame.display.update()
 
 
-    def wave_spwn(self, delay, en_num):
+    def wave_spwn(self, cur_del, delay, en_num):
         # creates wave of enemies
-        if (self.cur_delay >= self.fps) and (self.spawn_cntr < en_num) and (self.spawn_wave) and self.spawn_delay > delay:
-            self.enemys.append(Grey())
+        if (self.cur_delay >= cur_del) and (self.spawn_cntr < en_num) and (self.spawn_wave) and self.spawn_delay > delay:
+            en = Grey()
+            if self.level == 2:
+                en.vel = 15
+            elif self.level == 3:
+                en.vel = 20
+            self.enemys.append(en)
             self.spawn_cntr += 1
             self.cur_delay = 0
         else:
             self.cur_delay += 1
             self.spawn_delay += 1
 
-        if self.spawn_delay >= delay-1 and self.spawn_cntr >= en_num:
+        if self.spawn_delay >= delay-1 and self.spawn_cntr >= en_num and len(self.enemys) <= 0:
             self.spawn_delay = 0
             self.spawn_cntr = 0
             self.level += 1
@@ -358,8 +387,10 @@ class Game:
             self.towers.remove(tow)
         self.spawn_cntr = 0
         self.base.hp = 100
-        self.coins = 100
+        self.coins = 200
         self.spawn_delay = 0
+        self.level = 1
+        self.game_win = False
 
 
     # Function to draw UI
