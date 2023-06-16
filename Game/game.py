@@ -63,7 +63,7 @@ class Game:
         self.x = 0
         self.towers = []
         self.lives = 10
-        self.coins = 200
+        self.coins = 100
         self.game_win = False
 
         # wave
@@ -211,7 +211,8 @@ class Game:
                         if tow.circle_collide(en):
                             if en.hp <= 0:
                                 self.coins += en.loot
-                                to_del.append(en)
+                                if en not in to_del:
+                                    to_del.append(en)
                     if en.y > 650:
                         to_del.append(en)
                     if self.base.collide(en):
@@ -387,7 +388,7 @@ class Game:
             self.towers.remove(tow)
         self.spawn_cntr = 0
         self.base.hp = 100
-        self.coins = 200
+        self.coins = 100
         self.spawn_delay = 0
         self.level = 1
         self.game_win = False
