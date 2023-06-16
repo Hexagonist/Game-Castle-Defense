@@ -36,7 +36,7 @@ class Res_indicator:
 
 class UI:
 
-    def __init__(self, x, y, width, height, r_panel, up_panel, font, coins):
+    def __init__(self, x, y, width, height, r_panel, up_panel, font, coins, level):
         self.ui_font = font
 
         self.image = pygame.transform.scale(r_panel, (int(width), int(height)))
@@ -48,6 +48,7 @@ class UI:
         self.clicked = False
 
         self.coins_num = coins
+        self.level_num = level
         # self.coins = Res_indicator(10, 5, "Coins: " + str(self.coins_num), self.ui_font, (0, 0, 0))
         self.tow1_btn_img = pygame.image.load(os.path.join("..\Grafika", "tow1_btn.png"))
         self.tow1_btn = Button(self.rect.x+width//2-25, self.rect.y+25, 50, 50, self.tow1_btn_img, True)
@@ -80,9 +81,12 @@ class UI:
         # rect.topleft = (x, y)
         win.blit(self.image, (self.rect.x, self.rect.y))
         self.up_panel.draw(win)
-        # win.blit(self.up_panel_img, (self.up_p_rect.x, self.up_p_rect.y))
+
         coins = Res_indicator(10, 5, "Coins: " + str(self.coins_num), self.ui_font, (0, 0, 0))
         coins.draw(win)
+        wave = Res_indicator(150, 5, "Wave: " + str(self.level_num), self.ui_font, (0, 0, 0))
+        wave.draw(win)
+
         self.tow1_btn.draw(win)
 
 
@@ -96,5 +100,6 @@ class UI:
         #
         # print(self.tow1_place_mode)
 
-    def update(self, coins):
+    def update(self, coins, level):
         self.coins_num = coins
+        self.level_num = level
