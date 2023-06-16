@@ -70,6 +70,7 @@ class Game:
         self.spawn_cntr = 0
         self.cur_delay = 0
         self.spawn_delay = 0
+        self.level = 1
 
 
         # Loading images:
@@ -228,16 +229,16 @@ class Game:
                     self.enemys.remove(d)
 
                 # creates wave of enemies
-                if (self.cur_delay >= self.fps) and (self.spawn_cntr < self.wave_0) and (self.spawn_wave) and self.spawn_delay > 120:
-                    self.enemys.append(Grey())
-                    self.spawn_cntr += 1
-                    self.cur_delay = 0
-                else:
-                    self.cur_delay += 1
-                    self.spawn_delay += 1
+                if self.level == 1:
+                    self.wave_spwn(120, 2)
+                elif self.level == 2:
+                    self.wave_spwn(120, 5)
+                elif self.level == 3:
+                    self.wave_spwn(240, 8)
 
-                if self.spawn_delay == 120 and self.spawn_cntr == self.wave_0:
-                    self.spawn_delay = 0
+                # if len(self.enemys) == 0 and :
+                #     self.level += 1
+
 
                 # Deleting all enemys & towers after state 'gameover' true
                 if self.game_active == False:
@@ -333,6 +334,21 @@ class Game:
                 #     pygame.display.update()
             pygame.display.update()
 
+
+    def wave_spwn(self, delay, en_num):
+        # creates wave of enemies
+        if (self.cur_delay >= self.fps) and (self.spawn_cntr < en_num) and (self.spawn_wave) and self.spawn_delay > delay:
+            self.enemys.append(Grey())
+            self.spawn_cntr += 1
+            self.cur_delay = 0
+        else:
+            self.cur_delay += 1
+            self.spawn_delay += 1
+
+        if self.spawn_delay >= delay-1 and self.spawn_cntr >= en_num:
+            self.spawn_delay = 0
+            self.spawn_cntr = 0
+            self.level += 1
 
 
     def game_reset(self):
