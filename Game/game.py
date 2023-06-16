@@ -59,14 +59,18 @@ class Game:
         self.towers = []
         self.shots = []
         self.tow = Tower_1
-        self.wave_0 = 4
-        self.spawn_cntr = 0
         self.fps = 60
-        self.cur_delay = 0
         self.x = 0
         self.towers = []
         self.lives = 10
-        self.coins = 100
+        self.coins = 200
+
+        # wave
+        self.wave_0 = 4
+        self.spawn_cntr = 0
+        self.cur_delay = 0
+        self.spawn_delay = 0
+
 
         # Loading images:
         self.bg = pygame.image.load(os.path.join("..\Grafika", "Mapa1.png"))
@@ -199,9 +203,10 @@ class Game:
 
                 for en in self.enemys:
                     for tow in self.towers:
-                        if tow.collide(en):
-                            self.coins += en.loot
-                            to_del.append(en)
+                        if tow.circle_collide(en):
+                            if en.hp <= 0:
+                                self.coins += en.loot
+                                to_del.append(en)
                     if en.y > 650:
                         to_del.append(en)
                     if self.base.collide(en):
@@ -223,12 +228,16 @@ class Game:
                     self.enemys.remove(d)
 
                 # creates wave of enemies
-                if (self.cur_delay >= self.fps) and (self.spawn_cntr < self.wave_0) and (self.spawn_wave):
+                if (self.cur_delay >= self.fps) and (self.spawn_cntr < self.wave_0) and (self.spawn_wave) and self.spawn_delay > 120:
                     self.enemys.append(Grey())
                     self.spawn_cntr += 1
                     self.cur_delay = 0
                 else:
                     self.cur_delay += 1
+                    self.spawn_delay += 1
+
+                if self.spawn_delay == 120 and self.spawn_cntr == self.wave_0:
+                    self.spawn_delay = 0
 
                 # Deleting all enemys & towers after state 'gameover' true
                 if self.game_active == False:
@@ -334,6 +343,7 @@ class Game:
         self.spawn_cntr = 0
         self.base.hp = 100
         self.coins = 100
+        self.spawn_delay = 0
 
 
     # Function to draw UI
