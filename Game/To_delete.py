@@ -5,7 +5,9 @@
 # Pieniadze -]
 # surowce
 # Baza -
-# Wieze
+# Wieze -
+# fale
+
 # Animacja strzalu
 # Prezentacja
 # Rozwiniecie UI ( wiecej przyciskow )

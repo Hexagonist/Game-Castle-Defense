@@ -31,7 +31,8 @@ class Enemy:
         self.width = 30
         self.height = 30
         self.animation_count = 0
-        self.health = 1
+        self.hp = 100
+        self.hp_max = 100
         self.x = 30 # self.path[0][0]
         self.y = 300 # self.path[0][1]
         # self.path = [(20, 329), (76, 330), (146, 331), (192, 335), (255, 337), (327, 340), (409, 339), (475, 337), (513, 309), (561, 297), (640, 292), (707, 314), (736, 333), (779, 343), (838, 339), (886, 339), (981, 330), (1031, 330), (1169, 341)]
@@ -51,7 +52,7 @@ class Enemy:
         self.x = int(self.path[0][0])
         self.y = int(self.path[0][1])
         # health bar
-        self.health = Health_bar(self.x, self.y, 50, 5, 10)
+        self.health = Health_bar(self.x, self.y, 50, 5, self.hp_max)
         self.dmg = 50
         self.loot = 50
 
@@ -69,23 +70,23 @@ class Enemy:
         #     self.animation_count = 0
         # self.animation_count += 1 #!
 
-
-        win.blit(self.img, ((self.x-self.width//2), (self.y-self.height//2)))
-        self.health.update(self.x-self.width//2 - 10, self.y - self.height - 2, 10)
+        self.img_rec = self.img.get_rect(center = (self.x, self.y))
+        win.blit(self.img, self.img_rec)#((self.x-self.width//2), (self.y-self.height//2)))
+        self.health.update(self.x-self.width//2 - 10, self.y - self.height - 2, self.hp)
         self.health.draw(win)
         self.move()
 
-    def collide(self, X, Y):
-        """
-        Returns if position has hit enemy
-        :param x: int
-        :param y: int
-        :return: Bool
-        """
-        # if X <= self.x + self.width and X >= self.x:
-        #     if Y <= self.y + self.height and Y >= self.y:
-        #         return True
-        # return False
+    # def collide(self, X, Y):
+    #     """
+    #     Returns if position has hit enemy
+    #     :param x: int
+    #     :param y: int
+    #     :return: Bool
+    #     """
+    #     # if X <= self.x + self.width and X >= self.x:
+    #     #     if Y <= self.y + self.height and Y >= self.y:
+    #     #         return True
+    #     # return False
 
 
 
