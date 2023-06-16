@@ -418,8 +418,6 @@ class Game:
 
 
 
-
-
     # def tow_add(self):
     #     print(self.tow.x, self.tow.y)
     #     self.towers.append(self.tow())
